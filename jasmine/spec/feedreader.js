@@ -27,46 +27,103 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
+        // check each feed for the vadility of its url
+         it('each have a valid url', () => {
+           allFeeds.forEach(feed => {
+             expect(feed.url).toBeDefined();
+             expect(feed.url.length).not.toBe(0);
+           });
+         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+         // check each feed for the vadility of its name
+         it('each have a valid name', () => {
+           allFeeds.forEach(feed => {
+             expect(feed.name).toBeDefined();
+             expect(feed.name.length).not.toBe(0);
+           });
+         });
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    /*
+    * test if menu is hidden by default
+    */
+    describe('The menu', () => {
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+      // If the body contains 'menu-hidden' class
+      // the slide-menu will be hidden by shifting to the left of visible
+      // area, as defined in the style.css
+      it('is hidden by default', ()=> {
+        expect(document.body.classList.contains('menu-hidden')).toBe(true);
+      });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+      // Create click event and check if the 'menu-hidden' class is toggled
+      // after each click
+      it('will change its visibility after each click', () => {
+        const click = new Event('click');
+        const menuIcon = document.getElementsByClassName('menu-icon-link')[0];
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+        menuIcon.dispatchEvent(click);
+        expect(document.body.classList.contains('menu-hidden')).toBe(false);
 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+        menuIcon.dispatchEvent(click);
+        expect(document.body.classList.contains('menu-hidden')).toBe(true);
+      })
+    });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+    /*
+    * test if initial entries are loaded
+    */
+    describe('Initial Entries', () => {
+      // set up beforeEach to test asynchronous function
+      beforeEach(done => {
+        loadFeed(0, () => {
+          done();
+        });
+      });
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+      // test if the container initially contains 1 or more entries
+      it('should be defined and non-empty', (done) => {
+        const container = document.getElementsByClassName('feed')[0].children;
+        expect(container).toBeDefined();
+        expect(container.length === 0).toBe(false);
+        done();
+      });
+    });
+
+
+    /*
+    * test if new feed is properly loaded
+    */
+    describe('New Feed Selection', () => {
+
+      let feedId = 0;
+      let prevHeadRef = '';
+
+      // call loadFeed() before each check
+      beforeEach(done => {
+        // update target by using feedId++
+        loadFeed(feedId++, () => {
+          done();
+        });
+      });
+
+      // loop through all feed source
+      for (let i = 0; i < allFeeds.length; ++i) {
+        it(`has been successfully loaded for feed ${i}`, done => {
+            const container = document.getElementsByClassName('feed')[0].children;
+
+            // check if the feed is loaded
+            expect(container.length).toBeDefined();
+            expect(container.length > 0).toBe(true);
+
+            // check if new feed is loaded
+            let nowHeadRef = container[0].href;
+            expect(nowHeadRef).not.toBe(prevHeadRef);
+            prevHeadRef = nowHeadRef;
+            done();
+        });
+      }
+
+    });
 }());
