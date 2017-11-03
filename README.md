@@ -11,25 +11,25 @@ The project is a completed Jasmine test designed to ensure the functionality of 
 
 ### Online
 
-Visit [public hosted page](shuchenliu.github.io/frontend-nanodegree-feedreader).
+Visit [public hosted page](http://shuchenliu.github.io/frontend-nanodegree-feedreader)
 
 ## Tests
 
 There are **4** major tests run on the Feeder to ensure every aspect of its funtionality.
 
-### RSS Source Test
+### 1. RSS Source Test
 
 Check if RSS source is well defined and if each of the source contains a meaningful `url` and `name`
 
-### Menu Test
+### 2. Menu Test
 
 Check if the slide menu is initially hidden and if related user interaction will have desired reult.
 
-### Initial Entries Test
+### 3. Initial Entries Test
 
 Check if the initial entries of feed is properly loaded
 
-### New Entries Test
+### 4. New Entries Test
 
 Check if new entries will be properly loaded if selected by the user.
 
