@@ -79,8 +79,9 @@ $(function() {
 
       // test if the container initially contains 1 or more entries
       it('should be defined and non-empty', (done) => {
-        const container = document.getElementsByClassName('feed')[0].children;
-        expect(container).toBeTruthy();
+        const container = $('.feed .entry');
+
+        expect(container.length).toBeGreaterThan(0);
         done();
       });
     });
