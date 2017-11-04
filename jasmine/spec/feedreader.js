@@ -29,18 +29,16 @@ $(function() {
 
         // check each feed for the vadility of its url
          it('each have a valid url', () => {
-           allFeeds.forEach(feed => {
-             expect(feed.url).toBeDefined();
-             expect(feed.url.length).not.toBe(0);
-           });
+           for (const feed of allFeeds) {
+             expect(feed.url).toBeTruthy();
+           }
          });
 
          // check each feed for the vadility of its name
          it('each have a valid name', () => {
-           allFeeds.forEach(feed => {
-             expect(feed.name).toBeDefined();
-             expect(feed.name.length).not.toBe(0);
-           });
+           for (const feed of allFeeds) {
+             expect(feed.name).toBeTruthy();
+           }
          });
     });
 
@@ -60,13 +58,12 @@ $(function() {
       // Create click event and check if the 'menu-hidden' class is toggled
       // after each click
       it('will change its visibility after each click', () => {
-        const click = new Event('click');
         const menuIcon = document.getElementsByClassName('menu-icon-link')[0];
 
-        menuIcon.dispatchEvent(click);
+        menuIcon.click();
         expect(document.body.classList.contains('menu-hidden')).toBe(false);
 
-        menuIcon.dispatchEvent(click);
+        menuIcon.click();
         expect(document.body.classList.contains('menu-hidden')).toBe(true);
       });
     });
@@ -77,16 +74,13 @@ $(function() {
     describe('Initial Entries', () => {
       // set up beforeEach to test asynchronous function
       beforeEach(done => {
-        loadFeed(0, () => {
-          done();
-        });
+        loadFeed(0, done);
       });
 
       // test if the container initially contains 1 or more entries
       it('should be defined and non-empty', (done) => {
         const container = document.getElementsByClassName('feed')[0].children;
-        expect(container).toBeDefined();
-        expect(container.length === 0).toBe(false);
+        expect(container).toBeTruthy();
         done();
       });
     });
@@ -96,73 +90,25 @@ $(function() {
     * test if new feed is properly loaded
     */
     describe('New Feed Selection', () => {
+      let previousEntries;
 
-      let feedId = 0;
-      let prevHeadRef = '';
-
-      // call loadFeed() before each check
+      // check 2 different feed
       beforeEach(done => {
-        // update target by using feedId++
-        loadFeed(feedId++, () => {
-          done();
+        loadFeed(0, () => {
+          previousEntries = $('.feed .entry');
+          loadFeed(1, done);
         });
       });
 
       // loop through all feed source
-      it('has been successfully loaded for feed 0', done => {
-          const container = document.getElementsByClassName('feed')[0].children;
+      it('has been successfully loaded when selected', done => {
+          const currentEntries = $('.feed .entry');
 
           // check if the feed is loaded
-          expect(container.length).toBeDefined();
-          expect(container.length > 0).toBe(true);
+          expect(currentEntries).toBeTruthy();
 
-          // check if new feed is loaded
-          let nowHeadRef = container[0].href;
-          expect(nowHeadRef).not.toBe(prevHeadRef);
-          prevHeadRef = nowHeadRef;
-          done();
-      });
-
-
-      it('has been successfully loaded for feed 1', done => {
-          const container = document.getElementsByClassName('feed')[0].children;
-
-          // check if the feed is loaded
-          expect(container.length).toBeDefined();
-          expect(container.length > 0).toBe(true);
-
-          // check if new feed is loaded
-          let nowHeadRef = container[0].href;
-          expect(nowHeadRef).not.toBe(prevHeadRef);
-          prevHeadRef = nowHeadRef;
-          done();
-      });
-
-      it('has been successfully loaded for feed 2', done => {
-          const container = document.getElementsByClassName('feed')[0].children;
-
-          // check if the feed is loaded
-          expect(container.length).toBeDefined();
-          expect(container.length > 0).toBe(true);
-
-          // check if new feed is loaded
-          let nowHeadRef = container[0].href;
-          expect(nowHeadRef).not.toBe(prevHeadRef);
-          prevHeadRef = nowHeadRef;
-          done();
-      });
-
-      it('has been successfully loaded for feed 3', done => {
-          const container = document.getElementsByClassName('feed')[0].children;
-
-          // check if the feed is loaded
-          expect(container.length).toBeDefined();
-          expect(container.length > 0).toBe(true);
-
-          // check if new feed is loaded
-          let nowHeadRef = container[0].href;
-          expect(nowHeadRef).not.toBe(prevHeadRef);
-          prevHeadRef = nowHeadRef;
+          // check if new feed is loaded by comparing the first entries
+          expect(currentEntries[0].innerHTML).not.toBe(previousEntries[0].innerHTML);
           done();
       });
 
