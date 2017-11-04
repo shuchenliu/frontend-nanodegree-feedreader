@@ -68,7 +68,7 @@ $(function() {
 
         menuIcon.dispatchEvent(click);
         expect(document.body.classList.contains('menu-hidden')).toBe(true);
-      })
+      });
     });
 
     /*
@@ -109,21 +109,62 @@ $(function() {
       });
 
       // loop through all feed source
-      for (let i = 0; i < allFeeds.length; ++i) {
-        it(`has been successfully loaded for feed ${i}`, done => {
-            const container = document.getElementsByClassName('feed')[0].children;
+      it('has been successfully loaded for feed 0', done => {
+          const container = document.getElementsByClassName('feed')[0].children;
 
-            // check if the feed is loaded
-            expect(container.length).toBeDefined();
-            expect(container.length > 0).toBe(true);
+          // check if the feed is loaded
+          expect(container.length).toBeDefined();
+          expect(container.length > 0).toBe(true);
 
-            // check if new feed is loaded
-            let nowHeadRef = container[0].href;
-            expect(nowHeadRef).not.toBe(prevHeadRef);
-            prevHeadRef = nowHeadRef;
-            done();
-        });
-      }
+          // check if new feed is loaded
+          let nowHeadRef = container[0].href;
+          expect(nowHeadRef).not.toBe(prevHeadRef);
+          prevHeadRef = nowHeadRef;
+          done();
+      });
+
+
+      it('has been successfully loaded for feed 1', done => {
+          const container = document.getElementsByClassName('feed')[0].children;
+
+          // check if the feed is loaded
+          expect(container.length).toBeDefined();
+          expect(container.length > 0).toBe(true);
+
+          // check if new feed is loaded
+          let nowHeadRef = container[0].href;
+          expect(nowHeadRef).not.toBe(prevHeadRef);
+          prevHeadRef = nowHeadRef;
+          done();
+      });
+
+      it('has been successfully loaded for feed 2', done => {
+          const container = document.getElementsByClassName('feed')[0].children;
+
+          // check if the feed is loaded
+          expect(container.length).toBeDefined();
+          expect(container.length > 0).toBe(true);
+
+          // check if new feed is loaded
+          let nowHeadRef = container[0].href;
+          expect(nowHeadRef).not.toBe(prevHeadRef);
+          prevHeadRef = nowHeadRef;
+          done();
+      });
+
+      it('has been successfully loaded for feed 3', done => {
+          const container = document.getElementsByClassName('feed')[0].children;
+
+          // check if the feed is loaded
+          expect(container.length).toBeDefined();
+          expect(container.length > 0).toBe(true);
+
+          // check if new feed is loaded
+          let nowHeadRef = container[0].href;
+          expect(nowHeadRef).not.toBe(prevHeadRef);
+          prevHeadRef = nowHeadRef;
+          done();
+      });
 
     });
 }());
